@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI & BMR Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #EBECFF;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 120vh;
+            margin: 0px;
+        }
+        .title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #FFFFE4;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .title span {
+            text-transform: none;
+            color: #E0DFC8;
+            font-size:0.9em;
+        }
+        .calculator {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            color: #580A00;
+        }
+        .calculator h2 {
+            margin-bottom: 20px;
+            color: #2082CC;
+        }
+        .calculator label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .calculator input, .calculator select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            color: #014305;
+        }
+        .calculator button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .calculator button:hover {
+            background-color: #218838;
+        }
+        .calculator .result {
+            margin-top: 20px;
+            border: 2px solid #eb04e2;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .calculator .result p {
+            font-weight: bold;
+        }
+        .creator {
+            font-size: 0.9em;
+            color: #A76401;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .red {
+            color: red;
+            font-weight: bold;
+        }
+        .green {
+            color: green;
+            font-weight: bold;
+        }
+        .height-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .height-container input {
+            flex: 1;
+        }
+        .menu-bar {
+            width: 107%;
+            background-color: #066B52;
+            padding: 12px 0;
+            text-align: center;
+            color: white;
+            margin-bottom: 35px;
+        }
+        .menu-bar .title {
+            margin: 0;
+        }
+        .footer {
+            margin-top: auto;
+            padding: 12px 0;
+            text-align: center;
+            background-color: #066B52;
+            width: 107%;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-bar">
+        <div class="title">
+            <i><u>S A . CreatoR</u></i><span> <i>presents</i> </span>
+        </div>
+    </div>
+
+    <div class="calculator">
+        <h2>BMI & BMR Calculator</h2>
+        <label for="heightUnit">Height Unit:</label>
+        <select id="heightUnit" onchange="toggleHeightInputs()">
+            <option value="ftin">Feet & Inches</option>
+            <option value="cm">Centimeters</option>
+        </select>
+
+        <div id="cmInput" class="height-container" style="display: none;">
+            <input type="number" id="heightCm" placeholder="Enter your height in cm">
+        </div>
+        <div id="ftinInput" class="height-container">
+            <input type="text" id="heightFtIn" placeholder="5'10">
+        </div>
+        
+        <label for="weight">Weight (kg):</label>
+        <input type="number" id="weight" placeholder="Enter your weight in kg">
+        
+        <label for="age">Age (years):</label>
+        <input type="number" id="age" placeholder="Enter your age">
+        
+        <label for="gender">Gender:</label>
+        <select id="gender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+        
+        <label for="activity">Activity Level:</label>
+        <select id="activity">
+            <option value="1.2">Sedentary (little or no exercise)</option>
+            <option value="1.375">Lightly active (light exercise/sports 1-3 days/week)</option>
+            <option value="1.55">Moderately active (moderate exercise/sports 3-5 days/week)</option>
+            <option value="1.725">Very active (hard exercise/sports 6-7 days a week)</option>
+            <option value="1.9">Super active (very hard exercise/physical job)</option>
+        </select>
+
+        <button onclick="calculate()">Calculate</button>
+        
+        <div class="result">
+            <p id="bmiResult"></p>
+            <p id="bmrResult"></p>
+            <p id="dailyCalorieNeed"></p>
+            <p id="idealWeightRange"></p>
+            <p id="weightChangeAdvice"></p>
+        </div>
+
+        <div class="creator">
+            &copy; Created by <strong><u>Shouib Ahamed</u></strong>
+        </div>
+    </div>
+
+    <div class="footer">
+        &copy; 2024, Shouib Ahamed All rights reserved.
+    </div>
+
+    <script>
+        function toggleHeightInputs() {
+            const heightUnit = document.getElementById('heightUnit').value;
+            const cmInput = document.getElementById('cmInput');
+            const ftinInput = document.getElementById('ftinInput');
+            
+            if (heightUnit === 'cm') {
+                cmInput.style.display = 'flex';
+                ftinInput.style.display = 'none';
+            } else {
+                cmInput.style.display = 'none';
+                ftinInput.style.display = 'flex';
+            }
+        }
+
+        function calculate() {
+            const heightUnit = document.getElementById('heightUnit').value;
+            let height;
+
+            if (heightUnit === 'cm') {
+                const heightCm = parseFloat(document.getElementById('heightCm').value);
+                height = heightCm / 100;
+            } else if (heightUnit === 'ftin') {
+                const heightFtIn = document.getElementById('heightFtIn').value;
+                const heightParts = heightFtIn.split("'");
+
+                if (heightParts.length !== 2) {
+                    alert("Please enter height in the format: 5'10\"");
+                    return;
+                }
+
+                const heightFt = parseFloat(heightParts[0]);
+                const heightIn = parseFloat(heightParts[1].replace('"', ''));
+
+                if (heightIn > 11) {
+                    alert("Inches value cannot be more than 11.");
+                    return;
+                }
+
+                height = (heightFt * 0.3048) + (heightIn * 0.0254);
+            }
+
+            const weight = parseFloat(document.getElementById('weight').value);
+            const age = parseInt(document.getElementById('age').value);
+            const gender = document.getElementById('gender').value;
+            const activity = parseFloat(document.getElementById('activity').value);
+
+            // BMI calculation
+            const bmi = weight / (height * height);
+            let bmiResult = document.getElementById('bmiResult');
+            let dailyCalorieNeed = document.getElementById('dailyCalorieNeed');
+            let idealWeightRange = document.getElementById('idealWeightRange');
+            let weightChangeAdvice = document.getElementById('weightChangeAdvice');
+
+            document.querySelector('.result').style.display = 'block';
+
+            dailyCalorieNeed.innerText = ""; // Clear previous advice
+            idealWeightRange.innerText = ""; // Clear previous advice
+            weightChangeAdvice.innerText = ""; // Clear previous advice
+
+            if (bmi < 18.5) {
+                bmiResult.innerHTML = `<strong><u>BMI:</u></strong> ${bmi.toFixed(2)} (Underweight)`;
+                bmiResult.className = 'red';
+            } else if (bmi >= 18.5 && bmi < 25) {
+                bmiResult.innerHTML = `<strong><u>BMI:</u></strong> ${bmi.toFixed(2)} (Normal weight)`;
+                bmiResult.className = 'green';
+            } else if (bmi >= 25 && bmi < 30) {
+                bmiResult.innerHTML = `<strong><u>BMI:</u></strong> ${bmi.toFixed(2)} (Overweight)`;
+                bmiResult.className = 'red';
+            } else if (bmi >= 30 && bmi < 35) {
+                bmiResult.innerHTML = `<strong><u>BMI:</u></strong> ${bmi.toFixed(2)} (Obesity Class I)`;
+                bmiResult.className = 'red';
+            } else if (bmi >= 35 && bmi < 40) {
+                bmiResult.innerHTML = `<strong><u>BMI:</u></strong> ${bmi.toFixed(2)} (Obesity Class II)`;
+                bmiResult.className = 'red';
+            } else {
+                bmiResult.innerHTML = `<strong><u>BMI:</u></strong> ${bmi.toFixed(2)} (Obesity Class III)`;
+                bmiResult.className = 'red';
+            }
+            
+            // BMR calculation
+            let bmr;
+            if (gender === 'male') {
+                bmr = 66 + (13.7 * weight) + (5 * (height * 100)) - (6.8 * age);
+            } else {
+                bmr = 655 + (9.6 * weight) + (1.8 * (height * 100)) - (4.7 * age);
+            }
+            document.getElementById('bmrResult').innerHTML = `<strong><u>BMR:</u></strong> ${bmr.toFixed(2)} kcal/day`;
+
+            // Daily Calorie Needs calculation
+            const dailyCalories = bmr * activity;
+            dailyCalorieNeed.innerHTML = `<strong>Daily needed calories to maintain the same weight :</strong> ${dailyCalories.toFixed(2)} kcal/day`;
+             // Ideal weight range
+            const idealWeightLower = 18.5 * height * height;
+            const idealWeightUpper = 24.9 * height * height;
+            idealWeightRange.innerHTML = `<strong>Ideal Weight Range :</strong> (${idealWeightLower.toFixed(2)} - ${idealWeightUpper.toFixed(2)}) kg`;
+            // Weight change advice
+            if (bmi < 18.5) {
+                const weightToGain = idealWeightLower - weight;
+                weightChangeAdvice.innerHTML = `<strong>Advice :</strong> You should gain approximately ${weightToGain.toFixed(2)} kg to reach a normal BMI.`;
+            } else if (bmi >= 25) {
+                const weightToLose = weight - idealWeightUpper;
+                weightChangeAdvice.innerHTML = `<strong>Advice :</strong> You should lose approximately ${weightToLose.toFixed(2)} kg to reach a normal BMI.`;
+            } else {
+                weightChangeAdvice.innerHTML = `<strong>Advice :</strong> You are at a healthy weight. Maintain your current weight.`;
+            
+            }
+        }
+    </script>
+</body>
+</html>
+
