@@ -1,29 +1,29 @@
 <!doctype html>
 <html>
-<style>
-body { background-color:#E3ff9f;
-margin:1vh;
-}
-button { width:200px;
-         height:40px;
-         border-radius:25px;
-         font-size:17px;
-         border:5;
-         background-color: maroon;
-        }
-</style>
+<head>
+  <link rel="manifest" href="/manifest.json">
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+        console.log('Service Worker registered with scope:', registration.scope);
+      }).catch(function(error) {
+        console.log('Service Worker registration failed:', error);
+      });
+    }
+  </script>
+  <style>
+    body { background-color:#E3ff9f; margin:1vh; }
+    button { width:200px; height:40px; border-radius:25px; font-size:17px; border:5; background-color: maroon; }
+  </style>
+</head>
 <body>
-<h2><b><u><span style="color:red">BMI & BMR</u> <span style="color:black">calculator by <span style="color: maroon">Shouib</b></h2>
+  <h2><b><u><span style="color:red">BMI & BMR</u> <span style="color:black">calculator by <span style="color: maroon">Shouib</b></h2>
+  <pre>
+  <marquee direction="right" behavior="alternate" scrollamount="5" height="50px" bgcolor="cyan">
+    <h2 style="color:blue">calculate to click:</h2>
+  </marquee>
 
-<pre>
-
-
-
-<marquee direction="right"behavior="alternate"scrollamount="5"height="50px"bgcolor="cyan"><h2 style="color:blue">calculate to click:</h2></marquee>
-
-
-
-
-<div align="center"><a href="example.html"><button style="color:cyan">BMI & BMR Calculator</button></a></div>
-</pre></body>
+  <div align="center"><a href="example.html"><button style="color:cyan">BMI & BMR Calculator</button></a></div>
+  </pre>
+</body>
 </html>
