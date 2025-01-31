@@ -1,29 +1,97 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <link rel="manifest" href="/manifest.json">
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
-        console.log('Service Worker registered with scope:', registration.scope);
-      }).catch(function(error) {
-        console.log('Service Worker registration failed:', error);
-      });
-    }
-  </script>
-  <style>
-    body { background-color:#E3ff9f; margin:1vh; }
-    button { width:200px; height:40px; border-radius:25px; font-size:17px; border:5; background-color: maroon; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI & BMR Calculator</title>
+    <link rel="manifest" href="/manifest.json">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #E3FF9F, #A8E6CE);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            text-align: center;
+            padding: 30px 15px;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+        h2 {
+            font-size: 24px;
+            color: black;
+            margin-bottom: 15px;
+        }
+        h2 span.red {
+            color: red;
+        }
+        h2 span.maroon {
+            color: maroon;
+        }
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        marquee {
+            font-size: 18px;
+            font-weight: bold;
+            color: blue;
+            padding: 8px;
+            background-color: cyan;
+            border-radius: 5px;
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        .button-container a {
+            text-decoration: none;
+        }
+        button {
+            width: 100%;
+            height: 50px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            background-color: maroon;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        button:hover {
+            background-color: darkred;
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
 <body>
-  <h2><b><u><span style="color:red">BMI & BMR</u> <span style="color:black">calculator by <span style="color: maroon">Shouib</b></h2>
-  <pre>
-  <marquee direction="right" behavior="alternate" scrollamount="5" height="50px" bgcolor="cyan">
-    <h2 style="color:blue">calculate to click:</h2>
-  </marquee>
+    <div class="container">
+        <h2><b><span class="red">BMI & BMR</span> Calculator by <span class="maroon">Shouib</span></b></h2>
+        
+        <div class="marquee-container">
+            <marquee behavior="alternate" scrollamount="5">Calculate to Click:</marquee>
+        </div>
 
-  <div align="center"><a href="example.html"><button style="color:cyan">BMI & BMR Calculator</button></a></div>
-  </pre>
+        <div class="button-container">
+            <a href="example.html">
+                <button>Start Calculation</button>
+            </a>
+        </div>
+    </div>
 </body>
 </html>
