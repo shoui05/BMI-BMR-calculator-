@@ -3,95 +3,344 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BMI & BMR Calculator</title>
+    <title>BMI & BMR Calculator | Shouib</title>
+    <!-- manifest link kept but optional; add manifest.json if needed -->
     <link rel="manifest" href="/manifest.json">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
         }
+
         body {
-            background: linear-gradient(135deg, #E3FF9F, #A8E6CE);
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
-            height: 100vh;
-            text-align: center;
-            padding: 30px 15px;
+            justify-content: center;
+            background: linear-gradient(145deg, #d9f0b0 0%, #7ccfbb 70%, #46a6c9 100%);
+            background-attachment: fixed;
+            padding: 20px;
+            position: relative;
+            animation: gradientBreath 12s ease infinite alternate;
         }
+
+        @keyframes gradientBreath {
+            0% { background: linear-gradient(145deg, #E3FF9F, #A8E6CE, #6bc7d2); }
+            50% { background: linear-gradient(145deg, #c8f58a, #9addc3, #58bcd9); }
+            100% { background: linear-gradient(145deg, #b1f08a, #85cfb7, #3ca0c4); }
+        }
+
+        /* subtle floating particles effect */
+        body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 20% 40%, rgba(255,255,240,0.15) 0%, transparent 25%),
+                        radial-gradient(circle at 90% 70%, rgba(255,255,230,0.12) 0%, transparent 30%);
+            pointer-events: none;
+        }
+
         .container {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            max-width: 400px;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 42px;
+            padding: 40px 30px;
+            box-shadow: 0 30px 50px rgba(0, 40, 20, 0.3), inset 2px 2px 8px rgba(255,255,255,0.6), inset -6px -6px 12px rgba(0,0,0,0.05);
+            max-width: 500px;
             width: 100%;
+            border: 1px solid rgba(255,255,245,0.5);
+            transition: transform 0.3s ease, box-shadow 0.4s;
+            animation: floatIn 0.7s cubic-bezier(0.15, 0.9, 0.3, 1.05);
         }
+
+        .container:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 40px 60px rgba(20, 70, 30, 0.4), inset 2px 2px 12px white;
+        }
+
+        @keyframes floatIn {
+            0% { opacity: 0; transform: translateY(40px) scale(0.96); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
         h2 {
-            font-size: 24px;
-            color: black;
-            margin-bottom: 15px;
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.25rem 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,60,30,0.1);
         }
-        h2 span.red {
-            color: red;
+
+        h2 .red {
+            color: #c92a2a;
+            background: linear-gradient(145deg, #c92a2a, #a51e1e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 8px rgba(200,30,30,0.3);
+            font-size: 2.4rem;
         }
-        h2 span.maroon {
-            color: maroon;
+
+        h2 .maroon {
+            color: #800000;
+            background: linear-gradient(145deg, #b0302a, #6d0e0e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.4rem;
+            font-weight: 800;
+            position: relative;
         }
+
+        /* decorative underline for name */
+        h2 .maroon::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, maroon, #ffb347, maroon);
+            border-radius: 4px;
+            opacity: 0.6;
+        }
+
         .marquee-container {
             width: 100%;
-            overflow: hidden;
-            margin-bottom: 15px;
+            margin: 25px 0 35px;
+            border-radius: 60px;
+            background: rgba(0, 70, 50, 0.1);
+            padding: 6px 6px;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.1), 0 8px 12px -8px rgba(20,80,40,0.3);
         }
+
         marquee {
-            font-size: 18px;
-            font-weight: bold;
-            color: blue;
-            padding: 8px;
-            background-color: cyan;
-            border-radius: 5px;
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #023b3b;
+            background: linear-gradient(95deg, #b2f2d2, #7ee6d0, #b4f0c7);
+            padding: 14px 8px;
+            border-radius: 60px;
+            border: 1px solid rgba(255,255,255,0.7);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
+
         .button-container {
-            margin-top: 20px;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
         }
+
         .button-container a {
             text-decoration: none;
+            width: 100%;
         }
+
         button {
             width: 100%;
-            height: 50px;
-            border-radius: 25px;
-            font-size: 18px;
-            font-weight: bold;
+            padding: 20px 15px;
+            border-radius: 50px;
+            font-size: 1.9rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
             border: none;
-            background-color: maroon;
+            background: linear-gradient(135deg, #6b2d2d, #a04545, #6d2323);
             color: white;
             cursor: pointer;
-            transition: 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.25s ease-in-out;
+            box-shadow: 0 18px 28px -8px #3d1e1e, 0 4px 12px rgba(0,0,0,0.2), inset 0 -2px 0 #4b1f1f;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            border: 1px solid rgba(255, 220, 180, 0.5);
         }
+
+        /* subtle 3d / glass effect */
+        button::before {
+            content: "⚡";
+            font-size: 2.2rem;
+            filter: drop-shadow(0 2px 3px gold);
+            transition: transform 0.3s;
+        }
+
+        button::after {
+            content: "⚡";
+            font-size: 2.2rem;
+            filter: drop-shadow(0 2px 3px orange);
+            transition: transform 0.3s;
+        }
+
         button:hover {
-            background-color: darkred;
-            transform: translateY(-2px);
+            background: linear-gradient(135deg, #854040, #b35757, #7a2e2e);
+            transform: scale(1.02) translateY(-5px);
+            box-shadow: 0 28px 36px -8px #4b2626, 0 8px 18px black;
+        }
+
+        button:hover::before {
+            transform: rotate(15deg) scale(1.15);
+        }
+
+        button:hover::after {
+            transform: rotate(-15deg) scale(1.15);
+        }
+
+        button:active {
+            transform: scale(0.97) translateY(2px);
+            box-shadow: 0 10px 20px -5px #2f1a1a;
+        }
+
+        /* advanced extra card info */
+        .feature-badge {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+            margin: 30px 0 10px;
+            color: #153e3e;
+        }
+
+        .feature-badge span {
+            background: rgba(10, 70, 60, 0.15);
+            backdrop-filter: blur(4px);
+            padding: 8px 22px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: 1px solid rgba(255, 248, 220, 0.5);
+            box-shadow: inset 0 1px 4px white;
+            color: #023b2b;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .feature-badge span::before {
+            content: "✨";
+            font-size: 1.2rem;
+        }
+
+        .feature-badge span:last-child::before {
+            content: "📊";
+        }
+
+        /* micro animation for marquee */
+        marquee:hover {
+            background: linear-gradient(95deg, #a3ebcb, #6cdbc4, #a0eaba);
+            color: #022a2a;
+            box-shadow: 0 0 15px cyan;
+        }
+
+        /* responsive */
+        @media (max-width: 450px) {
+            .container {
+                padding: 30px 20px;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            h2 .red, h2 .maroon {
+                font-size: 2rem;
+            }
+            button {
+                font-size: 1.6rem;
+                padding: 18px 10px;
+            }
+            marquee {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* extra glow */
+        .container:after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #d4ffa0, transparent, #98f0df);
+            border-radius: 44px;
+            z-index: -1;
+            opacity: 0.3;
+            filter: blur(10px);
+        }
+
+        .container {
+            position: relative;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2><b><span class="red">BMI & BMR</span> Calculator by <span class="maroon">Shouib</span></b></h2>
+        <h2>
+            <span class="red">BMI & BMR</span> 
+            <span style="color:#1f4f4f; font-weight: 600;">Calculator</span> 
+            <span style="font-weight: 400; color: #3e5f5f;">by</span> 
+            <span class="maroon">Shouib</span>
+        </h2>
         
         <div class="marquee-container">
-            <marquee behavior="alternate" scrollamount="5">Calculate to Click:</marquee>
+            <marquee behavior="alternate" scrollamount="6" truespeed speed="4">
+                ⚡ Calculate to Click:  BMI · BMR · Advanced ⚡
+            </marquee>
         </div>
 
         <div class="button-container">
-            <a href="example.html">
+            <a href="example.html" aria-label="Start BMI & BMR calculation">
                 <button>Start Calculation</button>
             </a>
         </div>
+
+        <!-- decorative badges - extra advanced look -->
+        <div class="feature-badge">
+            <span>instant health insight</span>
+            <span>track fitness goals</span>
+        </div>
+
+        <!-- tiny microinteraction: dynamic progress? purely aesthetic -->
+        <div style="height: 5px; width: 100%; background: rgba(0,80,70,0.2); border-radius: 10px; margin-top: 15px; overflow: hidden;">
+            <div style="width: 70%; height: 100%; background: linear-gradient(90deg, maroon, #d68b5c, #b3d95b); border-radius: 10px; animation: loadingPulse 2s infinite alternate;"></div>
+        </div>
+        <style>
+            @keyframes loadingPulse {
+                0% { opacity: 0.5; width: 40%; }
+                100% { opacity: 1; width: 85%; }
+            }
+        </style>
     </div>
+
+    <!-- subtle extra script for dynamic feel: no calculation logic needed, just pure design -->
+    <script>
+        (function() {
+            // Advanced interactive spark: change gradient on marquee click for fun
+            const marqueeElement = document.querySelector('marquee');
+            const container = document.querySelector('.container');
+            if (marqueeElement) {
+                marqueeElement.addEventListener('click', function() {
+                    container.style.transition = 'background 0.3s';
+                    container.style.background = 'rgba(240, 255, 230, 0.9)';
+                    setTimeout(() => {
+                        container.style.background = ''; // revert to default (which is rgba blur)
+                    }, 300);
+                });
+            }
+
+            // just a tiny UX: simulate dynamic ready state
+            console.log('BMI & BMR advanced UI by Shouib — ready');
+        })();
+    </script>
 </body>
 </html>
